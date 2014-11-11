@@ -1,4 +1,4 @@
-
+//This is code for player side
 public class Player {
 
 	private int points;
