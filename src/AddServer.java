@@ -7,7 +7,7 @@ AddServerImpl addServerImpl = new AddServerImpl();
 Naming.rebind("AddServer", addServerImpl);
 }
 catch(Exception e) {
-System.out.println("Exception: " + e);
+System.out.println("Exception:  " + e);
 }
 }
 }

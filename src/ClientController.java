@@ -1,7 +1,9 @@
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -15,12 +17,15 @@ abstract class ClientViewEventTriggerAdaptor implements ClientViewListener {
 	public void callLogoutAction() {}
 }
 
-public class ClientController implements callbackClientIntf{
+public class ClientController extends  UnicastRemoteObject implements callbackClientIntf{
 
 	static Player playerObj;
 	static ClientView clientViewObj;
 	static AddServerIntf addServerIntf;
 	//CallBack Methods for the client side
+
+	public ClientController() throws RemoteException {
+	}
 	
 	public void newPositionofFliege(Fliege F){
 	
@@ -43,6 +48,7 @@ public class ClientController implements callbackClientIntf{
 		
 		clientViewObj.showPlayerListInUI(playerListString);
 	}
+
 	
 	//main Function
 	public static void main(String[] args) {
@@ -79,8 +85,12 @@ public class ClientController implements callbackClientIntf{
 			
 
 				 try {
-					addServerIntf.register(this,name);
-					addServerIntf.login(name);
+					 System.out.println("before this");
+					 this.print();
+					 addServerIntf.register(this, name);
+					 System.out.println("after this");
+
+					 addServerIntf.login(name);
 					
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
@@ -99,12 +109,17 @@ public class ClientController implements callbackClientIntf{
 					e.printStackTrace();
 				}
 			}
+
+			public void print(){
+				System.out.println("print called");
+			}
 			
 			
 		});
 		//End--->
 		
 		//Look up the server RMI
+
 		
 		String addServerURL = "rmi://" + args[0] + "/AddServer";
 		 try {

@@ -19,7 +19,7 @@ import java.util.*;
 			 ArrayList<Player> arr = new ArrayList<Player>(player_info.values());
 			 System.out.println(
 			   "**************************************\n"
-			 + "Callbacks initiated —-");
+			 + "Callbacks initiated ï¿½-");
 			 String str;
 			 Set<String> set = clientList.keySet(); // get set-view of keys
 			 // get iterator
@@ -38,7 +38,7 @@ import java.util.*;
 			 }
 			 
 			 System.out.println("********************************\n" +
-			 "Server completed callbacks —-");
+			 "Server completed callbacks ï¿½-");
 		} // doCallbacks
 				
 		public static int randInt(int min, int max) {
@@ -134,7 +134,7 @@ import java.util.*;
 
 		//Register all the RMI Client CALLBACKS.
 		public void register(Object obj, String Username) throws RemoteException {
-		
+			System.out.println("inside register");
 			if (clientList.containsKey(Username) == false) {
 				 clientList.put(Username, (ClientController)obj);
 				 System.out.println("Registered new client ");
