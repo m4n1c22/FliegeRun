@@ -5,7 +5,7 @@ import java.util.*;
 	public class AddServerImpl extends UnicastRemoteObject implements AddServerIntf {
 			
 		public static Fliege F;
-		private Vector clientList;
+		private Hashtable<String, Object> clientList;
 		public static Hashtable<String, Player> player_info;
 	
 		public AddServerImpl() throws RemoteException {
@@ -18,18 +18,25 @@ import java.util.*;
 			 // make callback to each registered client
 			 ArrayList<Player> arr = new ArrayList<Player>(player_info.values());
 			 System.out.println(
-			 "**************************************\n"
+			   "**************************************\n"
 			 + "Callbacks initiated —-");
-			 for (int i = 0; i < clientList.size(); i++){
-			 System.out.println("doing "+ i +"-th callback\n"); 
-			 // convert the vector object to a callback object
-			 callbackClientIntf nextClient = 
-			 (callbackClientIntf)clientList.elementAt(i);
-			 // invoke the callback method
-			 nextClient.updatePlayerInfo(arr);
-			 nextClient.newPositionofFliege(F);
-			 //nextClient.loginStatus(status);
-			 }// end for
+			 String str;
+			 Set<String> set = clientList.keySet(); // get set-view of keys
+			 // get iterator
+			 Iterator<String> itr = set.iterator();
+			 
+			 while(itr.hasNext()) {
+				 str = (String) itr.next();     
+				 System.out.println("doing "+ str +"'s callback\n");
+	
+				 //convert the vector object to a callback object
+				 callbackClientIntf nextClient = (callbackClientIntf)clientList.get(str);
+				 
+				 // invoke the callback method
+				 nextClient.updatePlayerInfo(arr);
+				 nextClient.newPositionofFliege(F);
+			 }
+			 
 			 System.out.println("********************************\n" +
 			 "Server completed callbacks —-");
 		} // doCallbacks
@@ -77,7 +84,7 @@ import java.util.*;
 		}
 		
 		public boolean login(String userName) throws RemoteException{
-			   
+			boolean status = false;
 			if(player_info.containsKey(userName) == false ){
 				Player p_info = new Player();
 				p_info.setPlayerName(userName);
@@ -85,19 +92,17 @@ import java.util.*;
 			    player_info.put(userName,p_info);
 			    //Now that Player information is updated in Server's DB, set the position of FLIEGE to all the clients.
 			    //setPositionOfFliege(); --> This may not be required here.
-				//CALL BACK to confirm login.
-			    return true;
-			    
+			    status = true;
+			    return status;
 			}
+			return status;
 		    //CALL BACK the function here to update the player information to all.
-
-		    
-		    return false;//change the return value later.
 		}
 	 
 		public void logout(String userName) throws RemoteException{
 			
 			player_info.remove(userName);
+
 		}
 		
 		public Fliege informPosOfFliegetoClient(){
@@ -105,10 +110,10 @@ import java.util.*;
 		}
 
 		//Register all the RMI Client CALLBACKS.
-		public void register(Object obj) throws RemoteException {
+		public void register(Object obj, String Username) throws RemoteException {
 		
-			if (!(clientList.contains(obj))) {
-				 clientList.addElement(obj);
+			if (clientList.containsKey(Username) == false) {
+				 clientList.put(Username, obj)
 				 System.out.println("Registered new client ");
 				 } // end if			
 		}		
