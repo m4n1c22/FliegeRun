@@ -113,7 +113,7 @@ import java.util.*;
 		public void register(Object obj, String Username) throws RemoteException {
 		
 			if (clientList.containsKey(Username) == false) {
-				 clientList.put(Username, obj)
+				 clientList.put(Username, obj);
 				 System.out.println("Registered new client ");
 				 } // end if			
 		}		
