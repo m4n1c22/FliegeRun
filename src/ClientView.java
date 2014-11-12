@@ -1,31 +1,9 @@
-
-import java.awt.*;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.GroupLayout;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Random;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowStateListener;
-import java.awt.event.WindowEvent;
-
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTable;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 //Interface for adding the listeners
 interface ClientViewListener {
@@ -41,6 +19,8 @@ interface ClientViewListener {
 public class ClientView {
 
     static ArrayList<ClientViewListener> listeners = new ArrayList<ClientViewListener>();
+    //Call this method when you get the callback from server for new position of Fliege...
+    static int i = 0, j = 0;
     //private static Fliege F;
     private static JFrame f;
     private static JTextArea textArea;
@@ -50,7 +30,6 @@ public class ClientView {
     private static GroupLayout groupLayout;
     private static JLabel playerNameLabel;
     private static JButton connectButton;
-    private static JTextField playerNameTextField;
 
 
     //private static int minX,maxX,minY,maxY;
@@ -69,9 +48,7 @@ public class ClientView {
 	    return randomNum;
 	}
 */
-
-    //Call this method when you get the callback from server for new position of Fliege...
-    static int i=0,j=0;
+private static JTextField playerNameTextField;
 //    public static void setLocationForFliege(int x, int y) {
 //
 //        FliegeImg.setBounds(new Rectangle(new Point(200, 300), FliegeImg.getPreferredSize()));
@@ -84,6 +61,7 @@ public class ClientView {
         //fliege_x = newFliege.getPositionFlyX();
         //fliege_y = newFliege.getPositionFlyY();
 
+
         System.out.println("client setPositionFielge");
         System.out.println(x);
         System.out.println(y);
@@ -91,12 +69,14 @@ public class ClientView {
         FliegeImg.setVisible(false);
 //        setLocationForFliege(x, y)
         FliegeImg.setLocation(x,y);
+
         FliegeImg.setText("Hello");
 
         System.out.println(FliegeImg.getX());
         System.out.println("setPositionOfFliege is called " + ++j);
         FliegeImg.setVisible(true);
 
+        f.revalidate();
 
     }
 
@@ -158,6 +138,8 @@ public class ClientView {
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setRows(37);
+        textArea.setWrapStyleWord(true);
+        textArea.setSize(200, 600);
         panel_1.add(textArea);
 
 
@@ -165,7 +147,7 @@ public class ClientView {
         FliegeImg.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                triggerMouseEventsToClientController();
+                //triggerMouseEventsToClientController();
             }
         });
         FliegeImg.addMouseListener(new MouseAdapter() {
@@ -181,6 +163,7 @@ public class ClientView {
         f.getContentPane().setLayout(groupLayout);
         f.setExtendedState(JFrame.MAXIMIZED_BOTH);
         f.setVisible(true);
+        System.out.println(panel.getSize());
 
         //WindowEvent Trigger for logging out.....
 
@@ -196,6 +179,7 @@ public class ClientView {
         });
 
         f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        panel.setLayout(null);
 //        FliegeImg.setLocation(100, 300);
         //FliegeImg.setLayout(null);
     }
@@ -265,16 +249,6 @@ public class ClientView {
 
     }
 
-    public void showPlayerListInUI(String playerList) {
-
-        textArea.setText(playerList);
-    }
-
-    public void addListener(ClientViewListener toAdd) {
-
-        listeners.add(toAdd);
-    }
-
     public static void triggerButtonActionToClientControllerWithString(String name) {
 
         for (ClientViewListener cl : listeners)
@@ -291,6 +265,16 @@ public class ClientView {
 
         for (ClientViewListener cl : listeners)
             cl.callLogoutAction();
+    }
+
+    public void showPlayerListInUI(String playerList) {
+
+        textArea.setText(playerList);
+    }
+
+    public void addListener(ClientViewListener toAdd) {
+
+        listeners.add(toAdd);
     }
     
     

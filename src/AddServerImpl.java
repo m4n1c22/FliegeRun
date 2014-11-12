@@ -1,12 +1,12 @@
-import java.rmi.*;
-import java.rmi.server.*;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 	public class AddServerImpl extends UnicastRemoteObject implements AddServerIntf {
 			
 		public static Fliege F;
-		private Hashtable<String, Object> clientList;
 		public static Hashtable<String, Player> player_info;
+		private Hashtable<String, Object> clientList;
 	
 		public AddServerImpl() throws RemoteException {
 			
@@ -14,53 +14,53 @@ import java.util.*;
 			clientList = new Hashtable<String, Object>();
 			player_info = new Hashtable<String,Player>();			
 		}
-		
+
+		public static int randInt(int min, int max) {
+
+			// NOTE: Usually this should be a field rather than a method
+			// variable so that it is not re-seeded every call.
+			Random rand = new Random();
+
+			// nextInt is normally exclusive of the top value,
+			// so add 1 to make it inclusive
+			int randomNum = rand.nextInt((max - min) + 1) + min;
+
+			return randomNum;
+		}
+				
 		private synchronized void doCallbacks( ) throws java.rmi.RemoteException{
 			 // make callback to each registered client
 			 ArrayList<Player> arr = new ArrayList<Player>(player_info.values());
-			 System.out.println(arr.size());
-			 System.out.println(
-			   "**************************************\n"
-			 + "Callbacks initiated �-");
+//			 System.out.println(arr.size());
+//			 System.out.println(
+//			   "**************************************\n"
+//			 + "Callbacks initiated �-");
 			 String str;
 			 Set<String> set = clientList.keySet(); // get set-view of keys
 			 // get iterator
 			 Iterator<String> itr = set.iterator();
-			 
+
 			 while(itr.hasNext()) {
-				 str = (String) itr.next();     
-				 System.out.println("doing "+ str +"'s callback\n");
-	
+				 str = itr.next();
+//				 System.out.println("doing "+ str +"'s callback\n");
+
 				 //convert the vector object to a callback object
 				 callbackClientIntf nextClient = (callbackClientIntf)clientList.get(str);
-				 
+
 				 // invoke the callback method
 
 				 nextClient.updatePlayerInfo(arr);
 			 }
-			 
+
 			 System.out.println("********************************\n" +
 			 "Server completed callbacks �-");
 		} // doCallbacks
-				
-		public static int randInt(int min, int max) {
-
-		    // NOTE: Usually this should be a field rather than a method
-		    // variable so that it is not re-seeded every call.
-		    Random rand = new Random();
-
-		    // nextInt is normally exclusive of the top value,
-		    // so add 1 to make it inclusive
-		    int randomNum = rand.nextInt((max - min) + 1) + min;
-
-		    return randomNum;
-		}
 
 		public void setPositionOfFliege() {
 			
 			int rand_pos_of_Fliege_X, rand_pos_of_Fliege_Y;
-			rand_pos_of_Fliege_X = randInt(0,400);
-			rand_pos_of_Fliege_Y =randInt(0,300);
+			rand_pos_of_Fliege_X = randInt(0, 800);
+			rand_pos_of_Fliege_Y = randInt(0, 600);
 			F.setPositionFlyX(rand_pos_of_Fliege_X);
 			F.setPositionFlyY(rand_pos_of_Fliege_Y);
 		}
@@ -89,13 +89,13 @@ import java.util.*;
 			 Iterator<String> itr = set.iterator();
 			 
 			 while(itr.hasNext()) {
-				 str = (String) itr.next();     
-				 System.out.println("doing "+ str +"'s callback\n");
+				 str = itr.next();
+//				 System.out.println("doing "+ str +"'s callback\n");
 				 //convert the vector object to a callback object
 				 callbackClientIntf nextClient = (callbackClientIntf)clientList.get(str);
 				 // invoke the callback method
 				 nextClient.newPositionofFliege(F.getPositionFlyX(),F.getPositionFlyY());
-				 System.out.println("new position :  " + F.getPositionFlyX() + F.getPositionFlyY() );
+//				 System.out.println("new position :  " + F.getPositionFlyX() + F.getPositionFlyY() );
 			 }
             
 		}
@@ -145,10 +145,10 @@ import java.util.*;
 
 		//Register all the RMI Client CALLBACKS.
 		public void register(Object obj, String Username) throws RemoteException {
-			System.out.println("inside register");
+//			System.out.println("inside register");
 			if (clientList.containsKey(Username) == false) {
 				 clientList.put(Username, obj);
-				 System.out.println("Registered new client ");
+//				 System.out.println("Registered new client ");
 				 } // end if			
 		}		
 	}
