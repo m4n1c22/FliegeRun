@@ -102,7 +102,7 @@ import java.util.*;
 		public void logout(String userName) throws RemoteException{
 			
 			player_info.remove(userName);
-			
+
 		}
 		
 		public Fliege informPosOfFliegetoClient(){
