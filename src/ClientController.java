@@ -2,6 +2,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
@@ -11,7 +12,7 @@ abstract class ClientViewEventTriggerAdaptor implements ClientViewListener {
 	
 	public void connectButtonActionWithName(String name) {}
 	public void callFliegeHunted() {}
-	
+	public void callLogoutAction() {}
 }
 
 public class ClientController implements callbackClientIntf{
@@ -31,18 +32,18 @@ public class ClientController implements callbackClientIntf{
 		clientViewObj.initialiseUIForPlayer();
 	}
 	  
-	public void updatePlayerInfo(Hashtable<String,Player> player_info){
+	public void updatePlayerInfo(ArrayList<Player> playerList){
 		  
-		String playerList = new String();
+		String playerListString = new String("Hello" + playerObj.getPlayerName() + "\n");
 		
+		for (Player P : playerList)
+		{
+			playerListString.concat(P.getPlayerName() + "\t" + String.valueOf(P.getPoints())+"\n");
+		}
 		
-		
-		
-		clientViewObj.showPlayerListInUI(playerList);
+		clientViewObj.showPlayerListInUI(playerListString);
 	}
-
-	//ServerCalls
-
+	
 	//main Function
 	public static void main(String[] args) {
 	
@@ -59,6 +60,12 @@ public class ClientController implements callbackClientIntf{
 			public void callFliegeHunted() {
 				
 				//server call for fliegeHunted()
+				try {
+					addServerIntf.fliegeHunted(playerObj.getPlayerName());
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				System.out.println("FliegeHunted by"+playerObj.getPlayerName()+".....");
 			}
@@ -66,11 +73,33 @@ public class ClientController implements callbackClientIntf{
 			//Called from Connect Button Action...
 			@Override
 			public void connectButtonActionWithName(String name) {
+
 				playerObj.setPlayerName(name);
 				//server call for login...
 			
-				
+
+				 try {
+					addServerIntf.register(this,name);
+					addServerIntf.login(name);
+					
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
 			}
+			@Override
+			public void callLogoutAction() {
+				
+					 try {
+					addServerIntf.logout(playerObj.getPlayerName());
+					
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 			
 		});
 		//End--->
@@ -81,9 +110,7 @@ public class ClientController implements callbackClientIntf{
 		 try {
 			  addServerIntf =
 			  (AddServerIntf)Naming.lookup(addServerURL);
-			  ClientController callbackObj = new ClientController();
-				//register for CALL BACKS 
-				 addServerIntf.register(callbackObj);			
+			  			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

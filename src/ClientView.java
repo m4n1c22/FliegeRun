@@ -35,6 +35,7 @@ interface ClientViewListener {
 	
 	public void connectButtonActionWithName(String name);
 	public void callFliegeHunted();
+	public void callLogoutAction();
 }
 
 
@@ -158,6 +159,20 @@ public class ClientView {
 	      f.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	      f.setVisible(true);
     	
+	      //WindowEvent Trigger for logging out.....
+	      
+	      f.addWindowListener(new  java.awt.event.WindowAdapter() {
+	          @Override
+	          public void windowClosing(WindowEvent e) {
+
+	              triggerWindowCloseEventsToClientController();
+
+	              f.setVisible(false);
+	              f.dispose();
+	          }
+	      });
+
+	      f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 	
     /**
@@ -246,6 +261,14 @@ public class ClientView {
     	for (ClientViewListener cl : listeners)
             cl.callFliegeHunted();
     }
+    
+public static void triggerWindowCloseEventsToClientController() {
+    	
+    	for (ClientViewListener cl : listeners)
+            cl.callLogoutAction();
+    }
+    
+    
 /*	public static void main(String[] args) {
 	
 		//initialiseUIForPlayer();
