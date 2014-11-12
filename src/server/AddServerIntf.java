@@ -1,4 +1,7 @@
-import java.rmi.*;
+package server;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface AddServerIntf extends Remote {
 	
@@ -11,6 +14,6 @@ public interface AddServerIntf extends Remote {
 	public void fliegeHunted(String userName) throws RemoteException;
 	public void initGUIforClient(String userName) throws RemoteException;
 	public void register(Object obj, String Username) throws RemoteException; //This is to register for the CALLBACK.
-	//public Player update
+	//public server.Player update
 	
 }

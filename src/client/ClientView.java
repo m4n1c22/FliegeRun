@@ -1,3 +1,5 @@
+package client;
+
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -19,9 +21,9 @@ interface ClientViewListener {
 public class ClientView {
 
     static ArrayList<ClientViewListener> listeners = new ArrayList<ClientViewListener>();
-    //Call this method when you get the callback from server for new position of Fliege...
+    //Call this method when you get the callback from server for new position of server.Fliege...
     static int i = 0, j = 0;
-    //private static Fliege F;
+    //private static server.Fliege F;
     private static JFrame f;
     private static JTextArea textArea;
     private static JLabel FliegeImg;
@@ -34,21 +36,21 @@ public class ClientView {
 
     //private static int minX,maxX,minY,maxY;
 
-	
-/*	public static int randInt(int min, int max) {
 
-	    // NOTE: Usually this should be a field rather than a method
-	    // variable so that it is not re-seeded every call.
-	    Random rand = new Random();
+    /*	public static int randInt(int min, int max) {
 
-	    // nextInt is normally exclusive of the top value,
-	    // so add 1 to make it inclusive
-	    int randomNum = rand.nextInt((max - min) + 1) + min;
+            // NOTE: Usually this should be a field rather than a method
+            // variable so that it is not re-seeded every call.
+            Random rand = new Random();
 
-	    return randomNum;
-	}
-*/
-private static JTextField playerNameTextField;
+            // nextInt is normally exclusive of the top value,
+            // so add 1 to make it inclusive
+            int randomNum = rand.nextInt((max - min) + 1) + min;
+
+            return randomNum;
+        }
+    */
+    private static JTextField playerNameTextField;
 //    public static void setLocationForFliege(int x, int y) {
 //
 //        FliegeImg.setBounds(new Rectangle(new Point(200, 300), FliegeImg.getPreferredSize()));
@@ -68,7 +70,7 @@ private static JTextField playerNameTextField;
 
         FliegeImg.setVisible(false);
 //        setLocationForFliege(x, y)
-        FliegeImg.setLocation(x,y);
+        FliegeImg.setLocation(x, y);
 
         FliegeImg.setText("Hello");
 
@@ -101,10 +103,10 @@ private static JTextField playerNameTextField;
         connectButton.setVisible(false);
 
 
-        // F = new Fliege();
+        // F = new server.Fliege();
 
 /*	      f.setSize(521, 387);
-	      f.setLocation(300,200);
+          f.setLocation(300,200);
 */
 
         f.getContentPane().remove(panel);
@@ -215,7 +217,7 @@ private static JTextField playerNameTextField;
                                 .addGap(282))
         );
 
-        playerNameLabel = new JLabel("Player Name");
+        playerNameLabel = new JLabel("server.Player Name");
         playerNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
         playerNameLabel.setLocation(frameCenterX - 500, frameCenterY - 5);

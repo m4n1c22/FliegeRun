@@ -1,3 +1,5 @@
+package server;
+
 import java.io.Serializable;
 
 //This is code for player side

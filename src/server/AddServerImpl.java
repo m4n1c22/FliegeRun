@@ -1,3 +1,7 @@
+package server;
+
+import client.callbackClientIntf;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
@@ -81,7 +85,7 @@ import java.util.*;
 			}				
 			 //Callback from server to all the clients to update score.
 			 doCallbacks( );
-			 //Callback from server to clients to give position of the Fliege.
+			//Callback from server to clients to give position of the server.Fliege.
 			 
 			 String str;
 			 Set<String> set = clientList.keySet(); // get set-view of keys
@@ -107,15 +111,15 @@ import java.util.*;
 				p_info.setPlayerName(userName);
 				//p_info.setPoints(0); not required, implemented a default constructor to initialize the variable to 0.
 			    player_info.put(userName,p_info);
-			    //Now that Player information is updated in Server's DB, set the position of FLIEGE to all the clients.
-			    if(player_info.size()==1 ){
-			    	//Set the position of the Fliege for the first client here., subsequent clients logged in will only
-			    	//need the current position of the Fliege.
-			    	setPositionOfFliege(); 	
+				//Now that server.Player information is updated in Server's DB, set the position of FLIEGE to all the clients.
+				if(player_info.size()==1 ){
+					//Set the position of the server.Fliege for the first client here., subsequent clients logged in will only
+					//need the current position of the server.Fliege.
+					setPositionOfFliege();
 			    }
 
 			     //If login is not for the 1st client then update the position to the client who just logged in.
-			     //((callbackClientIntf) clientList.get(userName)).newPositionofFliege(F.getPositionFlyX(),F.getPositionFlyY());
+				//((client.callbackClientIntf) clientList.get(userName)).newPositionofFliege(F.getPositionFlyX(),F.getPositionFlyY());
 
 			    //Update the player information to all the clients.
 			    //doCallbacks();

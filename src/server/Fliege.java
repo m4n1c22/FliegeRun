@@ -1,3 +1,5 @@
+package server;
+
 import java.io.Serializable;
 
 public class Fliege implements Serializable{
@@ -17,14 +19,17 @@ public class Fliege implements Serializable{
 		
 		return position_fly_x;
 	}
+
+	public void setPositionFlyX(int in_position_fly_x) {
+
+		this.position_fly_x = in_position_fly_x;
+
+	}
+
 	public int getPositionFlyY() {
 		return position_fly_y;
 	}
-	public void setPositionFlyX(int in_position_fly_x) {
-	
-		this.position_fly_x = in_position_fly_x;
-		
-	}
+
 	public void setPositionFlyY(int in_position_fly_y) {
 		
 		this.position_fly_y = in_position_fly_y;
