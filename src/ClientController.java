@@ -3,6 +3,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 
 abstract class ClientViewEventTriggerAdaptor implements ClientViewListener {
@@ -16,29 +18,28 @@ public class ClientController implements callbackClientIntf{
 
 	static Player playerObj;
 	static ClientView clientViewObj;
-	
+	static AddServerIntf addServerIntf;
 	//CallBack Methods for the client side
 	
-	public ClientController() {
-		
-	}
-	public static void didLoginSuccessfully() {
-		
-		clientViewObj.initialiseUIForPlayerWithPlayerName(playerObj.getPlayerName());
-	}
+	public void newPositionofFliege(Fliege F){
 	
-	//Please pass the necessary parameters....
-	public void updatePlayerList() {
-		
-		
-	}
-	
-	public void didSetFliegePosition() {
-		
-		//call setPositionOfFliege function using the clientViewObj....
-		
+		clientViewObj.setPositionOfFliege(F);
 	}
 
+	public void loginStatus(boolean status) throws RemoteException{
+		  
+		clientViewObj.initialiseUIForPlayer();
+	}
+	  
+	public void updatePlayerInfo(Hashtable<String,Player> player_info){
+		  
+		String playerList = new String();
+		
+		
+		
+		
+		clientViewObj.showPlayerListInUI(playerList);
+	}
 
 	//ServerCalls
 
@@ -78,7 +79,7 @@ public class ClientController implements callbackClientIntf{
 		
 		String addServerURL = "rmi://" + args[0] + "/AddServer";
 		 try {
-			  AddServerIntf addServerIntf =
+			  addServerIntf =
 			  (AddServerIntf)Naming.lookup(addServerURL);
 			  ClientController callbackObj = new ClientController();
 				//register for CALL BACKS 
@@ -97,14 +98,4 @@ public class ClientController implements callbackClientIntf{
 
 	}
 
-	  public void newPositionofFliege(Fliege F){
-		  
-	  }
-	  public void loginStatus(boolean status) throws RemoteException{
-		  
-	  }
-	  
-	  public void updatePlayerInfo(Hashtable<String,Player> player_info){
-		  
-	  }
 }

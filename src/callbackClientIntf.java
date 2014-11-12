@@ -1,6 +1,7 @@
 /* Copyright (c) 1999 BEA Systems, Inc.   All Rights Reserved */
 
 import java.rmi.*;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -14,6 +15,6 @@ public interface callbackClientIntf extends Remote
 	
   public void newPositionofFliege(Fliege F) throws RemoteException;
   public void loginStatus(boolean status) throws RemoteException;
-  public void updatePlayerInfo(Hashtable<String,Player> player_info) throws RemoteException;
+  public void updatePlayerInfo(ArrayList<Player> playerList) throws RemoteException;
 
 } // end CallbackClientIntf

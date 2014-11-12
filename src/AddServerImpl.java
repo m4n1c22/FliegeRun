@@ -16,6 +16,7 @@ import java.util.*;
 		
 		private synchronized void doCallbacks( ) throws java.rmi.RemoteException{
 			 // make callback to each registered client
+			 ArrayList<Player> arr = new ArrayList<Player>(player_info.values());
 			 System.out.println(
 			 "**************************************\n"
 			 + "Callbacks initiated —-");
@@ -25,7 +26,7 @@ import java.util.*;
 			 callbackClientIntf nextClient = 
 			 (callbackClientIntf)clientList.elementAt(i);
 			 // invoke the callback method
-			 nextClient.updatePlayerInfo(player_info);
+			 nextClient.updatePlayerInfo(arr);
 			 nextClient.newPositionofFliege(F);
 			 //nextClient.loginStatus(status);
 			 }// end for

@@ -90,7 +90,7 @@ public class ClientView {
 */
 	    
     //Call this method on response to the login success....
-    public static void initialiseUIForPlayerWithPlayerName(String playerName) {
+    public static void initialiseUIForPlayer() {
     	
 	      //f = new JFrame("");
     	  
@@ -136,7 +136,6 @@ public class ClientView {
 	      textArea.setEditable(false);
 	      textArea.setLineWrap(true);
 	      textArea.setRows(37);
-	      textArea.setText("Hello "+playerName);
 	      panel_1.add(textArea);
 	      
 	      
@@ -161,6 +160,9 @@ public class ClientView {
     	
     }
 	
+    /**
+     * @wbp.parser.entryPoint
+     */
     public static void setLoginUI() {
     	
         f = new JFrame("A JFrame");
@@ -223,6 +225,10 @@ public class ClientView {
 
     }
 
+    public void showPlayerListInUI(String playerList) {
+    	
+    	textArea.setText(playerList);
+    }
 	
 	public void addListener(ClientViewListener toAdd) {
 	
