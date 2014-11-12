@@ -35,12 +35,8 @@ import java.util.*;
 				 // invoke the callback method
 				 nextClient.updatePlayerInfo(player_info);
 				 nextClient.newPositionofFliege(F);
-			
 			 }
 			 
-			  
-			 
-
 			 System.out.println("********************************\n" +
 			 "Server completed callbacks —-");
 		} // doCallbacks
@@ -98,7 +94,6 @@ import java.util.*;
 			    //setPositionOfFliege(); --> This may not be required here.
 			    status = true;
 			    return status;
-			    
 			}
 			return status;
 		    //CALL BACK the function here to update the player information to all.
