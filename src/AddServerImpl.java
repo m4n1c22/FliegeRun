@@ -16,10 +16,10 @@ import java.util.*;
 		
 		private synchronized void doCallbacks( ) throws java.rmi.RemoteException{
 			 // make callback to each registered client
+			 ArrayList<Player> arr = new ArrayList<Player>(player_info.values());
 			 System.out.println(
 			   "**************************************\n"
 			 + "Callbacks initiated —-");
-			 
 			 String str;
 			 Set<String> set = clientList.keySet(); // get set-view of keys
 			 // get iterator
@@ -33,8 +33,8 @@ import java.util.*;
 				 callbackClientIntf nextClient = (callbackClientIntf)clientList.get(str);
 				 
 				 // invoke the callback method
-				 nextClient.updatePlayerInfo(player_info);
-				 //nextClient.newPositionofFliege(F);
+
+				 nextClient.updatePlayerInfo(arr);
 			 }
 			 
 			 System.out.println("********************************\n" +
@@ -109,12 +109,10 @@ import java.util.*;
 			    	//Set the position of the Fliege for the first client here., subsequent clients logged in will only
 			    	//need the current position of the Fliege.
 			    	setPositionOfFliege(); 	
-			    }
-			    else
-			    {	
+			    }	
 			     //If login is not for the 1st client then update the position to the client who just logged in.
 			     ((callbackClientIntf) clientList.get(userName)).newPositionofFliege(F);
-			    }
+
 			    //Update the player information to all the clients.
 			    doCallbacks();
 			    status = true;

@@ -35,6 +35,7 @@ interface ClientViewListener {
 	
 	public void connectButtonActionWithName(String name);
 	public void callFliegeHunted();
+	public void callLogoutAction();
 }
 
 
@@ -90,7 +91,7 @@ public class ClientView {
 */
 	    
     //Call this method on response to the login success....
-    public static void initialiseUIForPlayerWithPlayerName(String playerName) {
+    public static void initialiseUIForPlayer() {
     	
 	      //f = new JFrame("");
     	  
@@ -136,7 +137,6 @@ public class ClientView {
 	      textArea.setEditable(false);
 	      textArea.setLineWrap(true);
 	      textArea.setRows(37);
-	      textArea.setText("Hello "+playerName);
 	      panel_1.add(textArea);
 	      
 	      
@@ -159,8 +159,25 @@ public class ClientView {
 	      f.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	      f.setVisible(true);
     	
+	      //WindowEvent Trigger for logging out.....
+	      
+	      f.addWindowListener(new  java.awt.event.WindowAdapter() {
+	          @Override
+	          public void windowClosing(WindowEvent e) {
+
+	              triggerWindowCloseEventsToClientController();
+
+	              f.setVisible(false);
+	              f.dispose();
+	          }
+	      });
+
+	      f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 	
+    /**
+     * @wbp.parser.entryPoint
+     */
     public static void setLoginUI() {
     	
         f = new JFrame("A JFrame");
@@ -223,6 +240,10 @@ public class ClientView {
 
     }
 
+    public void showPlayerListInUI(String playerList) {
+    	
+    	textArea.setText(playerList);
+    }
 	
 	public void addListener(ClientViewListener toAdd) {
 	
@@ -240,6 +261,14 @@ public class ClientView {
     	for (ClientViewListener cl : listeners)
             cl.callFliegeHunted();
     }
+    
+public static void triggerWindowCloseEventsToClientController() {
+    	
+    	for (ClientViewListener cl : listeners)
+            cl.callLogoutAction();
+    }
+    
+    
 /*	public static void main(String[] args) {
 	
 		//initialiseUIForPlayer();

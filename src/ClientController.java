@@ -2,46 +2,48 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 
 abstract class ClientViewEventTriggerAdaptor implements ClientViewListener {
 	
 	public void connectButtonActionWithName(String name) {}
 	public void callFliegeHunted() {}
-	
+	public void callLogoutAction() {}
 }
 
 public class ClientController implements callbackClientIntf{
 
 	static Player playerObj;
 	static ClientView clientViewObj;
-	
+	static AddServerIntf addServerIntf;
 	//CallBack Methods for the client side
 	
-	public ClientController() {
-		
+	public void newPositionofFliege(Fliege F){
+	
+		clientViewObj.setPositionOfFliege(F);
 	}
-	public static void didLoginSuccessfully() {
+
+	public void loginStatus(boolean status) throws RemoteException{
+		  
+		clientViewObj.initialiseUIForPlayer();
+	}
+	  
+	public void updatePlayerInfo(ArrayList<Player> playerList){
+		  
+		String playerListString = new String("Hello" + playerObj.getPlayerName() + "\n");
 		
-		clientViewObj.initialiseUIForPlayerWithPlayerName(playerObj.getPlayerName());
+		for (Player P : playerList)
+		{
+			playerListString.concat(P.getPlayerName() + "\t" + String.valueOf(P.getPoints())+"\n");
+		}
+		
+		clientViewObj.showPlayerListInUI(playerListString);
 	}
 	
-	//Please pass the necessary parameters....
-	public void updatePlayerList() {
-		
-		
-	}
-	
-	public void didSetFliegePosition() {
-		
-		//call setPositionOfFliege function using the clientViewObj....
-		
-	}
-
-
-	//ServerCalls
-
 	//main Function
 	public static void main(String[] args) {
 	
@@ -58,6 +60,12 @@ public class ClientController implements callbackClientIntf{
 			public void callFliegeHunted() {
 				
 				//server call for fliegeHunted()
+				try {
+					addServerIntf.fliegeHunted(playerObj.getPlayerName());
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				System.out.println("FliegeHunted by"+playerObj.getPlayerName()+".....");
 			}
@@ -65,11 +73,33 @@ public class ClientController implements callbackClientIntf{
 			//Called from Connect Button Action...
 			@Override
 			public void connectButtonActionWithName(String name) {
+
 				playerObj.setPlayerName(name);
 				//server call for login...
 			
-				
+
+				 try {
+					addServerIntf.register(this,name);
+					addServerIntf.login(name);
+					
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
 			}
+			@Override
+			public void callLogoutAction() {
+				
+					 try {
+					addServerIntf.logout(playerObj.getPlayerName());
+					
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 			
 		});
 		//End--->
@@ -78,11 +108,9 @@ public class ClientController implements callbackClientIntf{
 		
 		String addServerURL = "rmi://" + args[0] + "/AddServer";
 		 try {
-			  AddServerIntf addServerIntf =
+			  addServerIntf =
 			  (AddServerIntf)Naming.lookup(addServerURL);
-			  ClientController callbackObj = new ClientController();
-				//register for CALL BACKS 
-				 addServerIntf.register(callbackObj);			
+			  			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,14 +125,4 @@ public class ClientController implements callbackClientIntf{
 
 	}
 
-	  public void newPositionofFliege(Fliege F){
-		  
-	  }
-	  public void loginStatus(boolean status) throws RemoteException{
-		  
-	  }
-	  
-	  public void updatePlayerInfo(Hashtable<String,Player> player_info){
-		  
-	  }
 }
