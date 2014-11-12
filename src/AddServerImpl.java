@@ -91,13 +91,12 @@ import java.util.*;
 		    //CALL BACK the function here to update the player information to all.
 
 		    
-		    return 0;//change the return value later.
+		    return false;//change the return value later.
 		}
 	 
-		public int logout(String userName) throws RemoteException{
+		public void logout(String userName) throws RemoteException{
 			
 			player_info.remove(userName);
-			return 0;	//Change the return value later.
 		}
 		
 		public Fliege informPosOfFliegetoClient(){
