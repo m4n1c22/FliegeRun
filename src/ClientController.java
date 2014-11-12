@@ -1,3 +1,9 @@
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+
 
 abstract class ClientViewEventTriggerAdaptor implements ClientViewListener {
 	
@@ -6,13 +12,16 @@ abstract class ClientViewEventTriggerAdaptor implements ClientViewListener {
 	
 }
 
-public class ClientController {
+public class ClientController implements callbackClientIntf{
 
 	static Player playerObj;
 	static ClientView clientViewObj;
 	
 	//CallBack Methods for the client side
 	
+	public ClientController() {
+		
+	}
 	public static void didLoginSuccessfully() {
 		
 		clientViewObj.initialiseUIForPlayerWithPlayerName(playerObj.getPlayerName());
@@ -40,6 +49,7 @@ public class ClientController {
 		playerObj = new Player();
 		System.out.println("hello");
 		clientViewObj.setLoginUI();
+		//Start -->
 		clientViewObj.addListener(new ClientViewEventTriggerAdaptor() {
 		
 			
@@ -58,10 +68,43 @@ public class ClientController {
 				playerObj.setPlayerName(name);
 				//server call for login...
 			
-				didLoginSuccessfully();
+				
 			}
 			
 		});
+		//End--->
+		
+		//Look up the server RMI
+		
+		String addServerURL = "rmi://" + args[0] + "/AddServer";
+		 try {
+			  AddServerIntf addServerIntf =
+			  (AddServerIntf)Naming.lookup(addServerURL);
+			  ClientController callbackObj = new ClientController();
+				//register for CALL BACKS 
+				 addServerIntf.register(callbackObj);			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+
 	}
 
+	  public void newPositionofFliege(Fliege F){
+		  
+	  }
+	  public void loginStatus(boolean status) throws RemoteException{
+		  
+	  }
+	  
+	  public void updatePlayerInfo(Hashtable<String,Player> player_info){
+		  
+	  }
 }

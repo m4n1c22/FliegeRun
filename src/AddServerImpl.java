@@ -1,17 +1,37 @@
-	import java.rmi.*;
-	import java.rmi.server.*;
-	import java.util.*;
-	import java.util.Random;
+import java.rmi.*;
+import java.rmi.server.*;
+import java.util.*;
 
 	public class AddServerImpl extends UnicastRemoteObject implements AddServerIntf {
 			
 		public static Fliege F;
+		private Vector clientList;
 		public static Hashtable<String, Player> player_info;
 	
 		public AddServerImpl() throws RemoteException {
 			
 			F = new Fliege();
+			player_info = new Hashtable<String,Player>();			
 		}
+		
+		private synchronized void doCallbacks( ) throws java.rmi.RemoteException{
+			 // make callback to each registered client
+			 System.out.println(
+			 "**************************************\n"
+			 + "Callbacks initiated —-");
+			 for (int i = 0; i < clientList.size(); i++){
+			 System.out.println("doing "+ i +"-th callback\n"); 
+			 // convert the vector object to a callback object
+			 callbackClientIntf nextClient = 
+			 (callbackClientIntf)clientList.elementAt(i);
+			 // invoke the callback method
+			 nextClient.updatePlayerInfo(player_info);
+			 nextClient.newPositionofFliege(F);
+			 //nextClient.loginStatus(status);
+			 }// end for
+			 System.out.println("********************************\n" +
+			 "Server completed callbacks —-");
+		} // doCallbacks
 				
 		public static int randInt(int min, int max) {
 
@@ -48,24 +68,28 @@
 					player_info.put(userName, tempInfo);					
 				}
 				//informPosOfFliegetoClient();				
-			}			
+			}	
+			
 			//Callback from server to remaining clients to update score.
 			//Callback from server to clients to give position of the Fliege.
+			doCallbacks( );
 		}
 		
-		public int login(String userName) throws RemoteException{
+		public boolean login(String userName) throws RemoteException{
 			   
 			if(player_info.containsKey(userName) == false ){
 				Player p_info = new Player();
 				p_info.setPlayerName(userName);
 				//p_info.setPoints(0); not required, implemented a default constructor to initialize the variable to 0.
-				player_info = new Hashtable<String,Player>();
 			    player_info.put(userName,p_info);
 			    //Now that Player information is updated in Server's DB, set the position of FLIEGE to all the clients.
 			    //setPositionOfFliege(); --> This may not be required here.
+				//CALL BACK to confirm login.
+			    return true;
+			    
 			}
 		    //CALL BACK the function here to update the player information to all.
-			//CALL BACK to confirm login.
+
 		    
 		    return 0;//change the return value later.
 		}
@@ -79,6 +103,13 @@
 		public Fliege informPosOfFliegetoClient(){
 			return(F);			
 		}
+
+		//Register all the RMI Client CALLBACKS.
+		public void register(Object obj) throws RemoteException {
 		
-				
+			if (!(clientList.contains(obj))) {
+				 clientList.addElement(obj);
+				 System.out.println("Registered new client ");
+				 } // end if			
+		}		
 	}
