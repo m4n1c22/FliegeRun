@@ -1,5 +1,7 @@
+import java.io.Serializable;
+
 //This is code for player side
-public class Player {
+public class Player implements Serializable{
 
 	private int points;
 	private String playerName;

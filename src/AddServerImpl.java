@@ -11,12 +11,14 @@ import java.util.*;
 		public AddServerImpl() throws RemoteException {
 			
 			F = new Fliege();
+			clientList = new Hashtable<String, Object>();
 			player_info = new Hashtable<String,Player>();			
 		}
 		
 		private synchronized void doCallbacks( ) throws java.rmi.RemoteException{
 			 // make callback to each registered client
 			 ArrayList<Player> arr = new ArrayList<Player>(player_info.values());
+			 System.out.println(arr.size());
 			 System.out.println(
 			   "**************************************\n"
 			 + "Callbacks initiated �-");
@@ -75,7 +77,7 @@ import java.util.*;
 					tempInfo.setPoints(points);//Get this player's Object ID Grant 1 point to him  and update the hash list again.
 					player_info.put(userName, tempInfo);					
 				}
-				
+				F.setFliege_hunted(false);
 			}				
 			 //Callback from server to all the clients to update score.
 			 doCallbacks( );
@@ -92,7 +94,8 @@ import java.util.*;
 				 //convert the vector object to a callback object
 				 callbackClientIntf nextClient = (callbackClientIntf)clientList.get(str);
 				 // invoke the callback method
-				 nextClient.newPositionofFliege(F);
+				 nextClient.newPositionofFliege(F.getPositionFlyX(),F.getPositionFlyY());
+				 System.out.println("new position :  " + F.getPositionFlyX() + F.getPositionFlyY() );
 			 }
             
 		}
@@ -109,19 +112,27 @@ import java.util.*;
 			    	//Set the position of the Fliege for the first client here., subsequent clients logged in will only
 			    	//need the current position of the Fliege.
 			    	setPositionOfFliege(); 	
-			    }	
+			    }
+
 			     //If login is not for the 1st client then update the position to the client who just logged in.
-			     ((callbackClientIntf) clientList.get(userName)).newPositionofFliege(F);
+			     //((callbackClientIntf) clientList.get(userName)).newPositionofFliege(F.getPositionFlyX(),F.getPositionFlyY());
 
 			    //Update the player information to all the clients.
-			    doCallbacks();
+			    //doCallbacks();
 			    status = true;
 			    return status;
 			}
 			return status;
 		    //CALL BACK the function here to update the player information to all.
 		}
-	 
+
+		public void initGUIforClient(String userName) throws RemoteException{
+			//If login is not for the 1st client then update the position to the client who just logged in.
+			((callbackClientIntf) clientList.get(userName)).newPositionofFliege(F.getPositionFlyX(),F.getPositionFlyY());
+
+			//Update the player information to all the clients.
+			doCallbacks();
+		}
 		public void logout(String userName) throws RemoteException{
 			//Remove the player information from the MODEL class.
 			player_info.remove(userName);
@@ -136,7 +147,7 @@ import java.util.*;
 		public void register(Object obj, String Username) throws RemoteException {
 			System.out.println("inside register");
 			if (clientList.containsKey(Username) == false) {
-				 clientList.put(Username, (ClientController)obj);
+				 clientList.put(Username, obj);
 				 System.out.println("Registered new client ");
 				 } // end if			
 		}		

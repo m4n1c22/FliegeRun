@@ -11,10 +11,10 @@ import java.util.Hashtable;
  *  IsRightValue(long, long): compare 2 longs,
  */
 public interface callbackClientIntf extends Remote
-{   
+{
   public static final String NAME = "CallbackClientIntf";
 	
-  public void newPositionofFliege(Fliege F) throws RemoteException;
+  public void newPositionofFliege(int x, int y) throws RemoteException;
   public void loginStatus(boolean status) throws RemoteException;
   public void updatePlayerInfo(ArrayList<Player> playerList) throws RemoteException;
 

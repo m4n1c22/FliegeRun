@@ -9,6 +9,7 @@ public interface AddServerIntf extends Remote {
 	public boolean login(String userName) throws RemoteException;
 	public void logout(String userName) throws RemoteException;
 	public void fliegeHunted(String userName) throws RemoteException;
+	public void initGUIforClient(String userName) throws RemoteException;
 	public void register(Object obj, String Username) throws RemoteException; //This is to register for the CALLBACK.
 	//public Player update
 	

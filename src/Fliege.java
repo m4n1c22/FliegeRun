@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Fliege {
+public class Fliege implements Serializable{
 
 	private int position_fly_x,position_fly_y;
 	private boolean fliege_hunted;
