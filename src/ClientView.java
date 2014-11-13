@@ -156,7 +156,7 @@ private static JTextField playerNameTextField;
                 triggerMouseEventsToClientController();
             }
         });
-        FliegeImg.setIcon(new ImageIcon(ClientView.class.getResource("/resources/fliege.jpg")));
+        FliegeImg.setIcon(new ImageIcon(ClientView.class.getResource("fliege.jpg")));
         System.out.println("initialising here");
         panel.add(FliegeImg);
         f.getContentPane().add(panel);

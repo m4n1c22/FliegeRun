@@ -1,0 +1,56 @@
+<project>
+    <!-- properties -->
+    <property name="bin"   value="./bin" />
+    <property name="src"   value="./src" />
+	
+	<description>
+		TK1 - Programmieraufgabe 1
+	</description>
+
+    <target name="clean">
+        <delete dir="${bin}" />
+    </target>
+
+    <target name="compile">
+		<mkdir dir="${bin}" />
+		<!--<mkdir dir="${bin}/server" />
+		<mkdir dir="${bin}/client" /> -->
+		<javac
+			srcdir="${src}"
+			destdir="${bin}"
+			includeAntRuntime="false"
+			debug="true">
+			<include name="**/*.java" />
+		</javac>
+		<rmic classname="AddServerImpl" base="${bin}"/>
+		<copy todir="${bin}">
+		  <fileset dir="${src}">
+			<include name="*.jpg" />
+		  </fileset>
+		</copy>
+    </target>
+
+    
+		 <!-- <parallel> -->		 
+		 <target name="server" depends="compile" >
+			<java classname="AddServer" fork="true" taskname="A" >
+				 <classpath path="${bin}" />
+				 <!-- <arg value="ram"/>  -->
+				 </java>
+			 
+		</target>
+		<!-- <target name="client" depends="server">
+
+			 <java classname="ClientController" fork="true" taskname="A" >
+			 <classpath path="${bin}" />
+			 <arg value="localhost"/>
+			 </java>
+
+			 <java classname="ClientController" fork="true" taskname="B">
+			 <classpath path="${bin}" />
+			 <arg value="localhost"/>
+			 </java>
+		 </target> -->
+		 <!-- </parallel> -->
+	
+</project>

@@ -52,8 +52,8 @@ import java.util.*;
 				 nextClient.updatePlayerInfo(arr);
 			 }
 
-			 System.out.println("********************************\n" +
-			 "Server completed callbacks �-");
+//			 System.out.println("********************************\n" +
+//			 "Server completed callbacks �-");
 		} // doCallbacks
 
 		public void setPositionOfFliege() {

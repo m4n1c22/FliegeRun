@@ -1,0 +1,16 @@
+<project>
+    <!-- properties -->
+    <property name="bin"   value="./bin" />
+    <property name="src"   value="./src" />
+	
+	<description>
+		TK1 - Programmieraufgabe 1
+	</description>
+
+		 <target name="rmiservice">
+			 <exec executable="rmiregistry" dir="${bin}">
+				 <arg value="10000"/>
+			 </exec>			 
+		</target>
+	
+</project>

@@ -1,0 +1,56 @@
+Index: .classpath
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .classpath	(revision ed5e27bc58f92f0dfd20817e7e07e7a91bcd8c6c)
++++ .classpath	(revision ed5e27bc58f92f0dfd20817e7e07e7a91bcd8c6c)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<classpath>
+-	<classpathentry kind="src" path="src"/>
+-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+-	<classpathentry kind="output" path="bin"/>
+-</classpath>
+Index: .project
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .project	(revision ed5e27bc58f92f0dfd20817e7e07e7a91bcd8c6c)
++++ .project	(revision ed5e27bc58f92f0dfd20817e7e07e7a91bcd8c6c)
+@@ -1,17 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<projectDescription>
+-	<name>FliegeRun</name>
+-	<comment></comment>
+-	<projects>
+-	</projects>
+-	<buildSpec>
+-		<buildCommand>
+-			<name>org.eclipse.jdt.core.javabuilder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-	</buildSpec>
+-	<natures>
+-		<nature>org.eclipse.jdt.core.javanature</nature>
+-	</natures>
+-</projectDescription>
+Index: src/AddServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/AddServer.java	(revision ed5e27bc58f92f0dfd20817e7e07e7a91bcd8c6c)
++++ src/AddServer.java	(revision )
+@@ -4,7 +4,7 @@
+     public static void main(String args[]) {
+         try {
+             AddServerImpl addServerImpl = new AddServerImpl();
+-            Naming.rebind("AddServer", addServerImpl);
++            Naming.rebind("//localhost/AddServer", addServerImpl);
+         }
+         catch(Exception e) {
+             System.out.println("Exception:  " + e);
+\ No newline at end of file
