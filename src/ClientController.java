@@ -1,8 +1,3 @@
-package client;
-
-import server.AddServerIntf;
-import server.Player;
-
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -13,17 +8,12 @@ import java.util.ArrayList;
 
 abstract class ClientViewEventTriggerAdaptor implements ClientViewListener {
 
-    public void connectButtonActionWithName(String name) {
-    }
-
-    public void callFliegeHunted() {
-    }
-
-    public void callLogoutAction() {
-    }
+    public void connectButtonActionWithName(String name) {}
+    public void callFliegeHunted() {}
+    public void callLogoutAction() {}
 }
 
-public class ClientController extends UnicastRemoteObject implements callbackClientIntf {
+public class ClientController extends  UnicastRemoteObject implements callbackClientIntf{
 
     static Player playerObj;
     static ClientView clientViewObj;
@@ -33,7 +23,7 @@ public class ClientController extends UnicastRemoteObject implements callbackCli
     int z = 0;
 
     public ClientController() throws RemoteException {
-        //clientObject =  new client.ClientController();
+        //clientObject =  new ClientController();
 //		clientObject = this;
     }
 
@@ -112,10 +102,9 @@ public class ClientController extends UnicastRemoteObject implements callbackCli
         //End--->
 
         //Look up the server RMI
-//
 
-        String addServerURL = "rmi://" + args[0] + "/server.AddServer";
-//		System.setSecurityManager(new RMISecurityManager());
+
+        String addServerURL = "rmi://" + args[0] + "/AddServer";
         try {
             addServerIntf =
                     (AddServerIntf) Naming.lookup(addServerURL);
@@ -134,11 +123,11 @@ public class ClientController extends UnicastRemoteObject implements callbackCli
 
     }
 
-    public Object getClientObject() {
+    public Object getClientObject(){
         return this;
     }
 
-    public void newPositionofFliege(int x, int y) {
+    public void newPositionofFliege(int x,int y){
 //		System.out.println("client newpositionFielge");
 //		System.out.println(x);
 //		System.out.println(y);
@@ -146,21 +135,22 @@ public class ClientController extends UnicastRemoteObject implements callbackCli
 //		System.out.println("newPositionofFliege is called " + ++z);
     }
 
-    public void loginStatus(boolean status) throws RemoteException {
+    public void loginStatus(boolean status) throws RemoteException{
 
         ClientView.initialiseUIForPlayer();
     }
 
-    public void updatePlayerInfo(ArrayList<Player> playerList) {
+    public void updatePlayerInfo(ArrayList<Player> playerList){
 
         String playerListString = new String("Hello  " + playerObj.getPlayerName() + "\n\n");
-        playerListString += "server.Player   \tScore" + "\n";
+        playerListString += "Player   \tScore" + "\n";
 //		System.out.println(playerList.size());
-        for (Player P : playerList) {
+        for (Player P : playerList)
+        {
 //			System.out.println(P.getPlayerName());
 //			System.out.println(P.getPoints());
 //			playerListString.concat(P.getPlayerName() + "\t" + String.valueOf(P.getPoints())+"\n");
-            playerListString += P.getPlayerName() + "\t" + String.valueOf(P.getPoints()) + "\n";
+            playerListString +=P.getPlayerName() + "\t" + String.valueOf(P.getPoints())+"\n";
 //			System.out.println(playerListString);
 //			System.out.println("called this for " + i++);
         }

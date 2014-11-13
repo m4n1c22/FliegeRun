@@ -1,5 +1,3 @@
-package client;
-
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -21,9 +19,9 @@ interface ClientViewListener {
 public class ClientView {
 
     static ArrayList<ClientViewListener> listeners = new ArrayList<ClientViewListener>();
-    //Call this method when you get the callback from server for new position of server.Fliege...
+    //Call this method when you get the callback from server for new position of Fliege...
     static int i = 0, j = 0;
-    //private static server.Fliege F;
+    //private static Fliege F;
     private static JFrame f;
     private static JTextArea textArea;
     private static JLabel FliegeImg;
@@ -38,15 +36,12 @@ public class ClientView {
 
 
     /*	public static int randInt(int min, int max) {
-
             // NOTE: Usually this should be a field rather than a method
             // variable so that it is not re-seeded every call.
             Random rand = new Random();
-
             // nextInt is normally exclusive of the top value,
             // so add 1 to make it inclusive
             int randomNum = rand.nextInt((max - min) + 1) + min;
-
             return randomNum;
         }
     */
@@ -70,7 +65,7 @@ public class ClientView {
 
         FliegeImg.setVisible(false);
 //        setLocationForFliege(x, y)
-        FliegeImg.setLocation(x, y);
+        FliegeImg.setLocation(x,y);
 
         FliegeImg.setText("Hello");
 
@@ -84,7 +79,6 @@ public class ClientView {
 
     	
 /*    public static void setPositionForMouseEventWithLabel(MouseEvent e,JLabel L) {
-
 		
 		//Call the serverMethod for fliegeHunted
 		
@@ -103,10 +97,10 @@ public class ClientView {
         connectButton.setVisible(false);
 
 
-        // F = new server.Fliege();
+        // F = new Fliege();
 
 /*	      f.setSize(521, 387);
-          f.setLocation(300,200);
+	      f.setLocation(300,200);
 */
 
         f.getContentPane().remove(panel);
@@ -217,7 +211,7 @@ public class ClientView {
                                 .addGap(282))
         );
 
-        playerNameLabel = new JLabel("server.Player Name");
+        playerNameLabel = new JLabel("Player Name");
         playerNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
         playerNameLabel.setLocation(frameCenterX - 500, frameCenterY - 5);
@@ -287,4 +281,3 @@ public class ClientView {
 	}
 */
 }
-
