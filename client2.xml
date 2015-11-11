@@ -13,7 +13,7 @@
 
 
 		<target name="client">
-			 <java classname="ClientController" fork="true" taskname="A" >
+			 <java classname="de.tud.tk.ex1.ClientController" fork="true" taskname="A" >
 			 <classpath path="${bin}" />
 			 <arg value="localhost"/>
 			 </java>			 

@@ -292,7 +292,7 @@
             <PATH vcs="Git" revision="">$PROJECT_DIR$/bin/Player.class</PATH>
             <PATH vcs="Git" revision="">$PROJECT_DIR$/bin/Server.class</PATH>
             <PATH vcs="Git" revision="">$PROJECT_DIR$/bin/callbackClientIntf.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/bin/resources/fliege.jpg</PATH>
+            <PATH vcs="Git" revision="">$PROJECT_DIR$/bin/de.tud.tk.ex1.resources/fliege.jpg</PATH>
             <PATH vcs="Git" revision="">$PROJECT_DIR$/src/AddServer.class</PATH>
             <PATH vcs="Git" revision="">$PROJECT_DIR$/src/AddServerImpl.class</PATH>
             <PATH vcs="Git" revision="">$PROJECT_DIR$/src/AddServerImpl_Stub.class</PATH>

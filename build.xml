@@ -22,7 +22,7 @@
 			debug="true">
 			<include name="**/*.java" />
 		</javac>
-		<rmic classname="AddServerImpl" base="${bin}"/>
+		<rmic classname="de.tud.tk.ex1.AddServerImpl" base="${bin}"/>
 		<copy todir="${bin}">
 		  <fileset dir="${src}">
 			<include name="*.jpg" />
@@ -33,7 +33,7 @@
     
 		 <!-- <parallel> -->		 
 		 <target name="server" depends="compile" >
-			<java classname="AddServer" fork="true" taskname="A" >
+			<java classname="de.tud.tk.ex1.AddServer" fork="true" taskname="A" >
 				 <classpath path="${bin}" />
 				 <!-- <arg value="ram"/>  -->
 				 </java>
